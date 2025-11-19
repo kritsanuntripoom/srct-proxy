@@ -72,17 +72,14 @@ function FindProxyForURL(url, host) {
 
 
 // ===== BYPASS IBM MaaS360 =====
-if (
-    shExpMatch(host, "*.maas360.com") ||
-    shExpMatch(host, "maas360.com") ||
-    shExpMatch(host, "*.fiberlink.com") ||
-    shExpMatch(host, "fiberlink.com") ||
-    shExpMatch(host, "*.ibmcloud.com") ||
-    shExpMatch(host, "*.bluemix.net") ||
-    shExpMatch(host, "*.cloud.ibm.com")
-) {
-    return "DIRECT";
-}
+	if (shExpMatch(host, "*.maas360.com")) return "DIRECT";
+	if (shExpMatch(host, "maas360.com")) return "DIRECT";
+	if (shExpMatch(host, "*.fiberlink.com")) return "DIRECT";
+	if (shExpMatch(host, "fiberlink.com")) return "DIRECT";
+	if (shExpMatch(host, "*.ibmcloud.com")) return "DIRECT";
+	if (shExpMatch(host, "*.bluemix.net")) return "DIRECT";
+	if (shExpMatch(host, "*.cloud.ibm.com")) return "DIRECT";
+
 
 
 
