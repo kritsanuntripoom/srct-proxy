@@ -69,98 +69,7 @@ function FindProxyForURL(url, host) {
     if (shExpMatch(host, "s-aiplus.aisingroup.com*"))       return "DIRECT";
     if (shExpMatch(host, "test-sts.jpn01.aisingroup.com*")) return "DIRECT";
 
-// FULL Microsoft 365 Email + Teams Whitelist + AISIN Group SSSO
-if (
 
-    // -------------------------
-    //  Exchange Online (Email)
-    // -------------------------
-    shExpMatch(host, "*.outlook.com") ||
-    shExpMatch(host, "*.outlook.office.com") ||
-    shExpMatch(host, "outlook.office365.com") ||
-    shExpMatch(host, "*.outlook.office365.com") ||
-    shExpMatch(host, "smtp.office365.com") ||
-    shExpMatch(host, "autodiscover.outlook.com") ||
-    shExpMatch(host, "*.protection.outlook.com") ||
-
-    // -------------------------
-    //  Microsoft Teams (Core)
-    // -------------------------
-    shExpMatch(host, "*.teams.microsoft.com") ||
-    shExpMatch(host, "teams.microsoft.com") ||
-    shExpMatch(host, "*.teams.cdn.office.net") ||
-    shExpMatch(host, "*.skype.com") ||
-    shExpMatch(host, "*.lync.com") ||
-
-    // -------------------------
-    //  Teams Meetings & Media
-    // -------------------------
-    shExpMatch(host, "*.msedge.net") ||
-    shExpMatch(host, "*.microsoft.com") ||
-    shExpMatch(host, "*.svc.ms") ||
-    shExpMatch(host, "*.live.com") ||
-    shExpMatch(host, "*.sfbassets.com") ||
-    shExpMatch(host, "*.akamaized.net") ||
-    shExpMatch(host, "*.trafficmanager.net") ||
-
-    // -------------------------
-    //  Teams File Sharing (SP/OD)
-    // -------------------------
-    shExpMatch(host, "*.sharepoint.com") ||
-    shExpMatch(host, "*.sharepoint-df.com") ||
-    shExpMatch(host, "*.office.com") ||
-    shExpMatch(host, "*.office.net") ||
-    shExpMatch(host, "*.office365.com") ||
-    shExpMatch(host, "*.onmicrosoft.com") ||
-
-    // -------------------------
-    //  Authentication (AAD)
-    // -------------------------
-    shExpMatch(host, "*.login.microsoftonline.com") ||
-    shExpMatch(host, "*.msauth.net") ||
-    shExpMatch(host, "*.msftauth.net") ||
-    shExpMatch(host, "*.microsoftonline.com") ||
-    shExpMatch(host, "*.microsoftonline-p.com") ||
-    shExpMatch(host, "*.aadcdn.msftauth.net") ||
-
-    // -------------------------
-    //  Graph API
-    // -------------------------
-    shExpMatch(host, "graph.microsoft.com") ||
-    shExpMatch(host, "*.graph.microsoft.com") ||
-
-    // -------------------------
-    //  CDN
-    // -------------------------
-    shExpMatch(host, "*.cdn.office.net") ||
-    shExpMatch(host, "*.cdn.office365.com") ||
-    shExpMatch(host, "*.msocdn.com") ||
-    shExpMatch(host, "*.officecdn.microsoft.com") ||
-
-    // -------------------------
-    //  Azure / Windows
-    // -------------------------
-    shExpMatch(host, "*.windows.net") ||
-    shExpMatch(host, "*.azureedge.net") ||
-    shExpMatch(host, "*.azure.com") ||
-    shExpMatch(host, "*.blob.core.windows.net") ||
-
-    // -------------------------
-    //  AISIN Group SSSO + Portals
-    // -------------------------
-    shExpMatch(host, "ap.ssso.hdems.com") ||
-    shExpMatch(host, "*.ssso.hdems.com") ||
-    shExpMatch(host, "ap01.aisingroup.com") ||
-    shExpMatch(host, "*.aisingroup.com") ||
-	
-	// -------------------------
-    //  Dynamics365 FO
-    // -------------------------
-    shExpMatch(host, "srct-dynamics365-pro.operations.dynamics.com*")
-	
-) {
-    return "DIRECT";
-}
 
 // ===== BYPASS IBM MaaS360 =====
 if (
@@ -175,29 +84,7 @@ if (
     return "DIRECT";
 }
 
-// ===== BYPASS Microsoft Entra ID / M365 Auth / SSO =====
-if (
-    shExpMatch(host, "login.microsoftonline.com") ||
-    shExpMatch(host, "*.login.microsoftonline.com") ||
-    shExpMatch(host, "login.live.com") ||
-    shExpMatch(host, "*.msauth.net") ||
-    shExpMatch(host, "*.msftauth.net") ||
-    shExpMatch(host, "*.msftauthimages.net") ||
-    shExpMatch(host, "*.aadcdn.microsoftonline-p.com") ||
-    shExpMatch(host, "secure.aadcdn.microsoftonline-p.com") ||
-    shExpMatch(host, "*.account.microsoft.com") ||
-    shExpMatch(host, "*.microsoftonline-p.com") ||
-    shExpMatch(host, "*.msedge.net") ||
-    shExpMatch(host, "*.microsoft.com") ||
-    shExpMatch(host, "*.windows.net") ||
-    shExpMatch(host, "*.azure.com") ||
-    shExpMatch(host, "*.azureedge.net") ||
-    shExpMatch(host, "*.azurefd.net") ||
-    shExpMatch(host, "*.graph.microsoft.com") ||
-    shExpMatch(host, "graph.microsoft.com")
-) {
-    return "DIRECT";
-}
+
 
     // ===== 4) อยู่ใน LAN/VPN บริษัทรึยัง? ใช้ proxy จริง / ถ้ายัง → ยิงทิ้ง =====
 
