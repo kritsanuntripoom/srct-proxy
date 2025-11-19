@@ -69,20 +69,6 @@ function FindProxyForURL(url, host) {
     if (shExpMatch(host, "s-aiplus.aisingroup.com*"))       return "DIRECT";
     if (shExpMatch(host, "test-sts.jpn01.aisingroup.com*")) return "DIRECT";
 
-
-
-// ===== BYPASS IBM MaaS360 =====
-	if (shExpMatch(host, "*.maas360.com")) return "DIRECT";
-	if (shExpMatch(host, "maas360.com")) return "DIRECT";
-	if (shExpMatch(host, "*.fiberlink.com")) return "DIRECT";
-	if (shExpMatch(host, "fiberlink.com")) return "DIRECT";
-	if (shExpMatch(host, "*.ibmcloud.com")) return "DIRECT";
-	if (shExpMatch(host, "*.bluemix.net")) return "DIRECT";
-	if (shExpMatch(host, "*.cloud.ibm.com")) return "DIRECT";
-
-
-
-
     // ===== 4) อยู่ใน LAN/VPN บริษัทรึยัง? ใช้ proxy จริง / ถ้ายัง → ยิงทิ้ง =====
 
     // myIpAddress() = IP ของเครื่องเราเอง
