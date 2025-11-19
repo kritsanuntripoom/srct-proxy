@@ -1,90 +1,53 @@
 function FindProxyForURL(url, host) {
 
-    // ===== 1) BYPASS สำหรับ WiFi Hotspot / Captive Portal ทั่วไป =====
-
-    if (isInNet(host, "10.0.0.0",  "255.0.0.0")   ||
-        isInNet(host, "172.16.0.0","255.240.0.0") ||
-        isInNet(host, "192.168.0.0","255.255.0.0")) {
-        return "DIRECT";
-    }
-	
-	// Hotspot portals (Ruijie + AIS WiFi)
-	if ( shExpMatch(host, "portal.ruijienetworks.com") ||
-     shExpMatch(url,  "*portal.ruijienetworks.com*") ||
-     shExpMatch(host, "wifi.ais.co.th") ||
-     shExpMatch(url,  "*wifi.ais.co.th*") ) {
-
-    return "DIRECT";
-	}
-
-
-	// ชื่อ host ที่ไม่มีจุด เช่น "login", "hotelwifi"
-    if (isPlainHostName(host)) {
+    // ===== 1) BYPASS สำหรับ WiFi Hotspot / Captive Portal =====
+    if (isInNet(host, "10.0.0.0", "255.0.0.0") ||
+        isInNet(host, "172.16.0.0", "255.240.0.0") ||
+        isInNet(host, "192.168.0.0", "255.255.0.0") ||
+        isPlainHostName(host)) {
         return "DIRECT";
     }
 
+    // Hotspot portals
+    if (shExpMatch(host, "portal.ruijienetworks.com") ||
+        shExpMatch(host, "wifi.ais.co.th") ||
+        shExpMatch(url, "*portal.ruijienetworks.com*") ||
+        shExpMatch(url, "*wifi.ais.co.th*")) {
+        return "DIRECT";
+    }
+
+    // Connectivity check URLs
     if (shExpMatch(url, "http://www.msftconnecttest.com/*") ||
-        shExpMatch(url, "http://www.msftncsi.com/*")        ||
-        shExpMatch(url, "http://captive.apple.com/*")       ||
-        shExpMatch(url, "http://detectportal.firefox.com/*")||
+        shExpMatch(url, "http://www.msftncsi.com/*") ||
+        shExpMatch(url, "http://captive.apple.com/*") ||
+        shExpMatch(url, "http://detectportal.firefox.com/*") ||
         shExpMatch(url, "http://connectivitycheck.android.com/*") ||
         shExpMatch(url, "http://clients3.google.com/generate_204*")) {
         return "DIRECT";
     }
 
-    // ===== 2) BYPASS สำหรับ Microsoft Auth / SSO =====
-
-    if (shExpMatch(host, "login.microsoftonline.com") ||
-        shExpMatch(host, "*.login.microsoftonline.com") ||
-        shExpMatch(host, "login.live.com") ||
-        shExpMatch(host, "*.msauth.net") ||
-        shExpMatch(host, "*.msftauth.net") ||
-        shExpMatch(host, "secure.aadcdn.microsoftonline-p.com") ) {
-        return "DIRECT";
+    // ===== 3) BYPASS สำหรับระบบภายใน =====
+    var internalHosts = [
+        "*.local", "*ap01.aisin-ap.com:7443*", "10.123.65.*", "192.168.1.*",
+        "srct-syteline*", "server-hrm*", "system-barcode*", "shiroki-s-prin*",
+        "espi.tdem.toyota-asia.com*", "sc2.tmap-em.toyota-asia.com*",
+        "www.global-env-system.aisin.co.jp*", "srct-proxy.pages.dev*",
+        "kritsanuntripoom.github.io*", "shiroki-s-meec*", "SRCT-S-MANAGE*",
+        "*.diw.go.th*", "ipms.tmap-em.toyota-asia.com*", "aiplus.aisingroup.com*",
+        "eqis.toyota.co.th*", "*labour.go.th*", "rscp.tdem.toyota-asia.com*",
+        "s-aiplus.aisingroup.com*", "test-sts.jpn01.aisingroup.com*"
+    ];
+    for (var i = 0; i < internalHosts.length; i++) {
+        if (shExpMatch(host, internalHosts[i])) return "DIRECT";
     }
 
-    // ===== 3) BYPASS สำหรับระบบภายใน + เว็บไซต์ที่เจ้านายใส่มา =====
-
-    if (shExpMatch(host, "*.local"))                        return "DIRECT";
-    if (shExpMatch(url,  "*ap01.aisin-ap.com:7443*")) 		return "DIRECT";
-    if (shExpMatch(host, "10.123.65.*"))                    return "DIRECT";
-    if (shExpMatch(host, "192.168.1.*"))                    return "DIRECT";
-    if (shExpMatch(host, "srct-syteline*"))                 return "DIRECT";
-    if (shExpMatch(host, "server-hrm*"))                    return "DIRECT";
-    if (shExpMatch(host, "system-barcode*"))                return "DIRECT";
-    if (shExpMatch(host, "shiroki-s-prin*"))                return "DIRECT";
-    if (shExpMatch(host, "espi.tdem.toyota-asia.com*"))     return "DIRECT";
-    if (shExpMatch(host, "sc2.tmap-em.toyota-asia.com*"))   return "DIRECT";
-    if (shExpMatch(host, "www.global-env-system.aisin.co.jp*")) return "DIRECT";
-	if (shExpMatch(host, "srct-proxy.pages.dev*")) 			return "DIRECT";
-	if (shExpMatch(host, "kritsanuntripoom.github.io*")) 	return "DIRECT";
-    if (shExpMatch(host, "shiroki-s-meec*"))                return "DIRECT";
-    if (shExpMatch(host, "SRCT-S-MANAGE*"))                 return "DIRECT";
-    if (shExpMatch(host, "*.diw.go.th*"))                   return "DIRECT";
-    if (shExpMatch(host, "ipms.tmap-em.toyota-asia.com*"))  return "DIRECT";
-    if (shExpMatch(host, "aiplus.aisingroup.com*"))         return "DIRECT";
-    if (shExpMatch(host, "eqis.toyota.co.th*"))             return "DIRECT";
-    if (shExpMatch(host, "*labour.go.th*"))                  return "DIRECT";
-    if (shExpMatch(host, "rscp.tdem.toyota-asia.com*"))     return "DIRECT";
-    if (shExpMatch(host, "s-aiplus.aisingroup.com*"))       return "DIRECT";
-    if (shExpMatch(host, "test-sts.jpn01.aisingroup.com*")) return "DIRECT";
-
-    // ===== 4) อยู่ใน LAN/VPN บริษัทรึยัง? ใช้ proxy จริง / ถ้ายัง → ยิงทิ้ง =====
-
-    // myIpAddress() = IP ของเครื่องเราเอง
+    // ===== 4) ตรวจสอบ LAN/VPN =====
     var myip = myIpAddress();
-
-	// ถ้ามี IP อยู่ในช่วง 10.123.65.0/24 แสดงว่าอยู่ใน LAN
-	// หรืออยู่ในช่วง 10.123.123.0/24 แสดงว่าเชื่อมต่อผ่าน VPN
-if (isInNet(myip, "10.123.0.0", "255.255.0.0") ||
-    isInNet(myip, "10.41.1.0", "255.255.255.0")) {
-
-        // อยู่ในเครือข่ายบริษัท → ไม่ต้องผ่าน proxy เลย
+    if (isInNet(myip, "10.123.0.0", "255.255.0.0") ||
+        isInNet(myip, "10.41.1.0", "255.255.255.0")) {
         return "DIRECT";
     }
 
-    // ถ้าไม่ได้อยู่ใน network บริษัท → บังคับไป proxy ปลอม (loopback port 9)
-    // ผลคือออกเน็ตนอกไม่ได้
+    // Default: ถ้าไม่เข้าเงื่อนไขใด ๆ → ใช้ Proxy ปลอม
     return "PROXY 127.0.0.1:9";
-	
 }
