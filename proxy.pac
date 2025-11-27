@@ -3,6 +3,7 @@ function FindProxyForURL(url, host) {
     // ===== 4) ตรวจสอบ LAN/VPN =====
     var myip = myIpAddress();
     if (isInNet(myip, "10.123.0.0", "255.255.0.0") ||
+		isInNet(myip, "172.31.2.0", "255.255.255.0") ||
         isInNet(myip, "10.41.1.0", "255.255.255.0")) {
         return "DIRECT";
     }
