@@ -1,4 +1,3 @@
-
 function FindProxyForURL(url, host) {
   // ===== 0) Normalization =====
   // บาง client คืน host เป็น uppercase → แปลงไว้กันพลาด
@@ -6,6 +5,13 @@ function FindProxyForURL(url, host) {
 
   // ===== 1) LAN/VPN =====
   var myip = myIpAddress();
+  
+     // ตรวจสอบว่าเป็น IPv6 หรือไม่ (มีเครื่องหมาย :)
+    if (shExpMatch(myip, "*:*")) {
+        // ถ้าเป็น IPv6 → bypass proxy เพราะ proxy ไม่รองรับ IPv6
+        return "DIRECT";
+    }
+	
   if (isInNet(myip, "10.123.0.0", "255.255.0.0") ||
       isInNet(myip, "172.31.2.0", "255.255.255.0") ||
       isInNet(myip, "10.41.1.0", "255.255.255.0")) {
@@ -41,6 +47,8 @@ function FindProxyForURL(url, host) {
   // ===== 3) DIRECT สำหรับระบบภายใน/เว็บไซต์ที่อยากให้วิ่งตรง =====
   var internalHosts = [
     "*.local",
+	"127.0.0.1",
+	"localhost",
     "ap01.aisin-ap.com",
     "10.123.65.*",
     "192.168.1.*",
@@ -54,7 +62,7 @@ function FindProxyForURL(url, host) {
     "srct-proxy.pages.dev*",
     "kritsanuntripoom.github.io*",
     "shiroki-s-meec*",
-    "SRCT-S-MANAGE*",
+    "srct-s-manage*",
     "*diw.go.th",
     "ipms.tmap-em.toyota-asia.com*",
     "aiplus.aisingroup.com*",
@@ -62,6 +70,8 @@ function FindProxyForURL(url, host) {
     "*labour.go.th*",
     "rscp.tdem.toyota-asia.com*",
     "s-aiplus.aisingroup.com*",
+	"*.maas360.com",
+	"portal.maas360.com*",
     "test-sts.jpn01.aisingroup.com*"
   ];
   for (var i = 0; i < internalHosts.length; i++) {
@@ -94,7 +104,7 @@ var m365 = [
     "g.live.com", "oneclient.sfx.ms", "*.wns.windows.com",
 
     // 5) CDN / Azure Front Door (สตาติก/สคริปต์)
-    "*.azureedge.net", "*.azurefd.net", "*.cdn.office.net"
+    "*.azureedge.net", "*.azurefd.net", "*.cdn.office.net","*.akamai.com"
   ];
   for (var j = 0; j < m365.length; j++) {
     if (shExpMatch(host, m365[j])) return "DIRECT";
