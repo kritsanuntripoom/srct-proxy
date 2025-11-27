@@ -70,23 +70,31 @@ function FindProxyForURL(url, host) {
 
   // ===== 4) DIRECT สำหรับ Microsoft 365/Outlook ที่จำเป็น =====
   // ป้องกันอาการ "Loading" เพราะโดเมนสำคัญถูกส่งไป proxy ปลอม
-  var o365Hosts = [
-    "*.outlook.office.com",
-    "outlook.office365.com",
-    "*.office365.com",
-    "login.microsoftonline.com",
-    "*.microsoftonline.com",
-    "*.microsoft.com",
-    "*.azureedge.net",
-    "*.azurefd.net",
-    "*.teams.microsoft.com",
-    "autodiscover.*",
-    "o365.officeapps.live.com",
-    "*.officeapps.live.com"
-  ];
-  for (var j = 0; j < o365Hosts.length; j++) {
-    if (shExpMatch(host, o365Hosts[j])) return "DIRECT";
-  }
+  
+// Microsoft Teams & M365 allowlist
+var m365Teams = [
+  // Auth
+  "login.microsoftonline.com", "*.microsoftonline.com", "login.windows.net",
+  "*.msauth.net", "*.msauthimages.net",
+  // Outlook/Exchange
+  "outlook.office.com", "outlook.office365.com", "*.outlook.office.com",
+  "*.outlook.cloud.microsoft", "autodiscover.outlook.com", "autodiscover-s.outlook.com",
+  "smtp.office365.com", "*.protection.outlook.com", "*.mail.protection.outlook.com",
+  // Teams
+  "*.teams.microsoft.com", "teams.microsoft.com", "*.skype.com", "*.lync.com",
+  "*.broadcast.skype.com", "*.sfbassets.com", "*.sfbassets.net", "*.mstea.ms",
+  // CDN
+  "*.azureedge.net", "*.azurefd.net", "*.cdn.office.net",
+  // Office Apps
+  "*.officeapps.live.com", "o365.officeapps.live.com", "officeclient.microsoft.com",
+  "*.sharepoint.com", "*.onenote.com", "*.onedrive.com",
+  // Notifications
+  "*.wns.windows.com", "*.push.microsoft.com"
+];
+for (var k = 0; k < m365Teams.length; k++) {
+  if (shExpMatch(host, m365Teams[k])) return "DIRECT";
+}
+
 
   // ===== Default =====
   // ถ้าไม่เข้าเงื่อนไขใด ๆ → ใช้ Proxy ปลอมเพื่อ block
