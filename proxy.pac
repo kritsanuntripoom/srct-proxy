@@ -71,29 +71,35 @@ function FindProxyForURL(url, host) {
   // ===== 4) DIRECT สำหรับ Microsoft 365/Outlook ที่จำเป็น =====
   // ป้องกันอาการ "Loading" เพราะโดเมนสำคัญถูกส่งไป proxy ปลอม
   
-// Microsoft Teams & M365 allowlist
-var m365Teams = [
-  // Auth
-  "login.microsoftonline.com", "*.microsoftonline.com", "login.windows.net",
-  "*.msauth.net", "*.msauthimages.net",
-  // Outlook/Exchange
-  "outlook.office.com", "outlook.office365.com", "*.outlook.office.com",
-  "*.outlook.cloud.microsoft", "autodiscover.outlook.com", "autodiscover-s.outlook.com",
-  "smtp.office365.com", "*.protection.outlook.com", "*.mail.protection.outlook.com",
-  // Teams
-  "*.teams.microsoft.com", "teams.microsoft.com", "*.skype.com", "*.lync.com",
-  "*.broadcast.skype.com", "*.sfbassets.com", "*.sfbassets.net", "*.mstea.ms",
-  // CDN
-  "*.azureedge.net", "*.azurefd.net", "*.cdn.office.net",
-  // Office Apps
-  "*.officeapps.live.com", "o365.officeapps.live.com", "officeclient.microsoft.com",
-  "*.sharepoint.com", "*.onenote.com", "*.onedrive.com",
-  // Notifications
-  "*.wns.windows.com", "*.push.microsoft.com"
-];
-for (var k = 0; k < m365Teams.length; k++) {
-  if (shExpMatch(host, m365Teams[k])) return "DIRECT";
-}
+//--- E) Microsoft 365 (Outlook/Exchange + Teams + SharePoint/OneDrive + Auth + CDN)
+
+var m365 = [
+    // 1) Authentication & Identity
+    "login.microsoftonline.com", "*.microsoftonline.com", "login.windows.net",
+    "*.msauth.net", "*.msauthimages.net",
+
+    // 2) Outlook / Exchange Online
+    "outlook.office.com", "outlook.office365.com", "*.outlook.office.com",
+    "*.outlook.cloud.microsoft", "autodiscover.outlook.com", "autodiscover-s.outlook.com",
+    "smtp.office365.com", "*.protection.outlook.com", "*.mail.protection.outlook.com",
+
+    // 3) Microsoft Teams (signaling/media/backends)
+    "*.teams.microsoft.com", "teams.microsoft.com", "*.skype.com", "*.lync.com",
+    "*.broadcast.skype.com", "*.sfbassets.com", "*.sfbassets.net", "*.mstea.ms",
+
+    // 4) SharePoint / OneDrive / Office Web
+    "*.sharepoint.com", "*.sharepointonline.com", "*.onenote.com",
+    "*.onedrive.com", "admin.onedrive.com",
+    "officeclient.microsoft.com", "*.officeapps.live.com", "o365.officeapps.live.com",
+    "g.live.com", "oneclient.sfx.ms", "*.wns.windows.com",
+
+    // 5) CDN / Azure Front Door (สตาติก/สคริปต์)
+    "*.azureedge.net", "*.azurefd.net", "*.cdn.office.net"
+  ];
+  for (var j = 0; j < m365.length; j++) {
+    if (shExpMatch(host, m365[j])) return "DIRECT";
+  }
+
 
 
   // ===== Default =====
