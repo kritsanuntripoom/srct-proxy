@@ -78,6 +78,11 @@ function FindProxyForURL(url, host) {
     if (shExpMatch(host, internalHosts[i])) return "DIRECT";
   }
 
+  // ===== 3.5) BLOCK Google Drive (minimal impact) =====
+  if (host == "drive.google.com") {
+    return "PROXY 127.0.0.1:9";
+  }
+
   // ===== 4) DIRECT สำหรับ Microsoft 365/Outlook ที่จำเป็น =====
   // ป้องกันอาการ "Loading" เพราะโดเมนสำคัญถูกส่งไป proxy ปลอม
   
