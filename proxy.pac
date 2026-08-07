@@ -63,7 +63,7 @@ function FindProxyForURL(url, host) {
     "kritsanuntripoom.github.io*",
     "shiroki-s-meec*",
     "srct-s-manage*",
-    "*diw.go.th",
+    "*diw.go.th*",
     "ipms.tmap-em.toyota-asia.com*",
     "aiplus.aisingroup.com*",
     "eqis.toyota.co.th*",
@@ -72,6 +72,11 @@ function FindProxyForURL(url, host) {
     "s-aiplus.aisingroup.com*",
 	"*.maas360.com",
 	"portal.maas360.com*",
+	"*translate.google.co.th*",
+	"*srkhrm.com*",
+	"*google.co.th*",
+	"*google.com*",
+	"*chatgpt.com*",
     "test-sts.jpn01.aisingroup.com*"
   ];
   for (var i = 0; i < internalHosts.length; i++) {
