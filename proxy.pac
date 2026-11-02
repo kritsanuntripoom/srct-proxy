@@ -74,6 +74,7 @@ function FindProxyForURL(url, host) {
 	"portal.maas360.com*",
 	"*translate.google.co.th*",
 	"*srkhrm.com*",
+	"*srct-hr.com*",
 	"*google.co.th*",
 	"*google.com*",
 	"*chatgpt.com*",
